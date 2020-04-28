@@ -85,9 +85,10 @@ type SslOptions struct {
 	// CertPath and KeyPath are optional depending on server
 	// config, but both fields must be omitted to avoid using a
 	// client certificate
-	CertPath string
-	KeyPath  string
-	CaPath   string //optional depending on server config
+	CertPath   string
+	KeyPath    string
+	CaPath     string //optional depending on server config
+	ServerName string // Name of server
 	// If you want to verify the hostname and server cert (like a wildcard for cass cluster) then you should turn this on
 	// This option is basically the inverse of InSecureSkipVerify
 	// See InSecureSkipVerify in http://golang.org/pkg/crypto/tls/ for more info
@@ -211,7 +212,6 @@ func (s *Session) dialWithoutObserver(ctx context.Context, host *HostInfo, cfg *
 		}
 		dialer = d
 	}
-
 
 	conn, err := dialer.DialContext(ctx, "tcp", host.HostnameAndPort())
 	if err != nil {
